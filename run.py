@@ -35,9 +35,9 @@ async def how_are_you(message: Message):
     await message.answer('OK!')
 
 
-@dp.message_handler()
+@dp.message()
 @auth
-async def add_expense(message: types.Message):
+async def add_expense(message: Message):
     """Добавляет новый расход"""
     try:
         expense = expenses.add_expense(message.text)

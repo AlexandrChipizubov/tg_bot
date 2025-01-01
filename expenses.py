@@ -3,6 +3,7 @@ import re
 from typing import List, NamedTuple, Optional
 
 import exceptions
+import db
 
 
 class Message(NamedTuple):
@@ -22,6 +23,7 @@ def add_expense(raw_message: str) -> Expense:
     """Добавляет новое сообщение.
     Принимает на вход текст сообщения, пришедшего в бот."""
     parsed_message = _parse_message(raw_message)
+    db.df_connect()
     # category = Categories().get_category(
     #     parsed_message.category_text)
     # inserted_row_id = db.insert("expense", {

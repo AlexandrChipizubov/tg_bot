@@ -19,21 +19,22 @@ def auth(func):
         return await func(message)
     return wrapper
 
-@dp.message(CommandStart())
-@auth
-async def cmd_start(message: Message):
+@dp.message(Command('start'))
+async def send_welcome(message: Message):
+    """Отправляет приветственное сообщение и помощь по боту"""
+    await message.answer(
+        "Бот для учёта финансов\n\n"
+        "Добавить расход: 250 такси\n"
+        "Узнать свой ID: /id"
+        # "\nСегодняшняя статистика: /today\n"
+        # "За текущий месяц: /month\n"
+        # "Последние внесённые расходы: /expenses\n"
+        # "Категории трат: /categories"
+        )
+
+@dp.message(Command('id'))
+async def get_user_data(message: Message):
     await message.answer(f'Привет.\nТвой ID: {message.from_user.id}\nИмя: {message.from_user.full_name}')
-
-@dp.message(Command('help'))
-@auth
-async def cmd_help(message: Message):
-    await message.answer('Это команда /help')
-
-@dp.message(F.text == 'Как дела?')
-@auth
-async def how_are_you(message: Message):
-    await message.answer('OK!')
-
 
 @dp.message()
 @auth

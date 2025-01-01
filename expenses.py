@@ -24,6 +24,7 @@ def add_expense(raw_message: str) -> Expense:
     Принимает на вход текст сообщения, пришедшего в бот."""
     parsed_message = _parse_message(raw_message)
     db.df_connect()
+    db.insert(parsed_message.amount, parsed_message.category_text)
     # category = Categories().get_category(
     #     parsed_message.category_text)
     # inserted_row_id = db.insert("expense", {

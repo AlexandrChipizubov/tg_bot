@@ -28,8 +28,8 @@ async def send_welcome(message: Message):
         "Добавить расход: 250 такси\n"
         "Удалить расход: /del 13 (вместо 13 подставить сумму расхода)\n"
         # "Сегодняшняя статистика: /today\n"
-        "За текущий месяц: /month\n\n"
-        # "Последние внесённые расходы: /expenses\n"
+        # "За текущий месяц: /month\n"
+        "Последние внесённые расходы: /expenses\n\n"
         # "Категории трат: /categories"
         "Узнать свой ID: /id"
         )
@@ -52,6 +52,21 @@ async def del_expense(message: Message):
 async def month_statistics(message: Message):
     """Отправляет статистику трат текущего месяца"""
     answer_message = expenses.get_month_statistics()
+    await message.answer(answer_message)
+
+@dp.message(Command('expenses'))
+async def list_expenses(message: Message):
+    """Отправляет последние несколько записей о расходах"""
+    last_expenses = expenses.last()
+    if not last_expenses:
+        await message.answer("Расходы ещё не заведены")
+        return
+    last_expenses_rows = [
+        f"{expense.amount} руб. на {expense.category_name} — нажми "
+        f"/del{expense.amount} для удаления"
+        for expense in last_expenses]
+    answer_message = "Последние сохранённые траты:\n\n* " + "\n\n* "\
+            .join(last_expenses_rows)
     await message.answer(answer_message)
 
 @dp.message()

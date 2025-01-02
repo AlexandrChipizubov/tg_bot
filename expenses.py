@@ -14,7 +14,6 @@ class Message(NamedTuple):
 
 class Expense(NamedTuple):
     """Структура добавленного в БД нового расхода"""
-    id: Optional[int]
     amount: int
     category_name: str
 
@@ -43,6 +42,15 @@ def get_month_statistics():
     expenses = cursor.execute("SELECT * FROM expense").fetchall()
     expenses = str(expenses)
     return expenses
+
+def last() -> List[Expense]:
+    """Возвращает последние несколько расходов"""
+    cursor = db.get_cursor()
+    cursor.execute(
+        "SELECT amount, raw_text FROM expense")
+    rows = cursor.fetchall()
+    last_expenses = [Expense(amount=row[0], category_name=row[1]) for row in rows]
+    return last_expenses
 
 def delete_expense(row_id: int) -> None:
     """Удаляет сообщение по его идентификатору"""

@@ -19,7 +19,8 @@ def auth(func):
         return await func(message)
     return wrapper
 
-@dp.message(Command('start'))
+@dp.message(CommandStart())
+@dp.message(Command('help'))
 async def send_welcome(message: Message):
     """Отправляет приветственное сообщение и помощь по боту"""
     await message.answer(

@@ -44,6 +44,10 @@ def get_month_statistics():
     expenses = str(expenses)
     return expenses
 
+def delete_expense(row_id: int) -> None:
+    """Удаляет сообщение по его идентификатору"""
+    db.delete("expense", row_id)
+
 def _parse_message(raw_message: str) -> Message:
     """Парсит текст пришедшего сообщения о новом расходе."""
     regexp_result = re.match(r"([\d ]+) (.*)", raw_message)

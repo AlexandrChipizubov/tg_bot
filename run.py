@@ -25,16 +25,26 @@ async def send_welcome(message: Message):
     await message.answer(
         "Бот для учёта финансов\n\n"
         "Добавить расход: 250 такси\n"
-        "Узнать свой ID: /id\n"
+        "Удалить расход: /del 13 (вместо 13 подставить id расхода)\n"
         # "Сегодняшняя статистика: /today\n"
-        "За текущий месяц: /month"
+        "За текущий месяц: /month\n\n"
         # "Последние внесённые расходы: /expenses\n"
         # "Категории трат: /categories"
+        "Узнать свой ID: /id"
         )
 
 @dp.message(Command('id'))
 async def get_user_data(message: Message):
     await message.answer(f'Привет.\nТвой ID: {message.from_user.id}\nИмя: {message.from_user.full_name}')
+
+@dp.message(lambda message: message.text.startswith('/del'))
+@auth
+async def del_expense(message: Message):
+    """Удаляет одну запись о расходе по её идентификатору"""
+    row_id = int(message.text[4:])
+    expenses.delete_expense(row_id)
+    answer_message = "Удалил"
+    await message.answer(answer_message)
 
 @dp.message(Command('month'))
 @auth

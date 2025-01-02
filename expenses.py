@@ -38,6 +38,11 @@ def add_expense(raw_message: str) -> Expense:
                 #    category_name=category.name)
                 category_name=parsed_message.category_text) #tmp_kostil
 
+def get_month_statistics():
+    cursor = db.get_cursor()
+    expenses = cursor.execute("SELECT * FROM expense").fetchall()
+    expenses = str(expenses)
+    return expenses
 
 def _parse_message(raw_message: str) -> Message:
     """Парсит текст пришедшего сообщения о новом расходе."""

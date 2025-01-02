@@ -25,9 +25,9 @@ async def send_welcome(message: Message):
     await message.answer(
         "Бот для учёта финансов\n\n"
         "Добавить расход: 250 такси\n"
-        "Узнать свой ID: /id"
-        # "\nСегодняшняя статистика: /today\n"
-        # "За текущий месяц: /month\n"
+        "Узнать свой ID: /id\n"
+        # "Сегодняшняя статистика: /today\n"
+        "За текущий месяц: /month"
         # "Последние внесённые расходы: /expenses\n"
         # "Категории трат: /categories"
         )
@@ -35,6 +35,13 @@ async def send_welcome(message: Message):
 @dp.message(Command('id'))
 async def get_user_data(message: Message):
     await message.answer(f'Привет.\nТвой ID: {message.from_user.id}\nИмя: {message.from_user.full_name}')
+
+@dp.message(Command('month'))
+@auth
+async def month_statistics(message: Message):
+    """Отправляет статистику трат текущего месяца"""
+    answer_message = expenses.get_month_statistics()
+    await message.answer(answer_message)
 
 @dp.message()
 @auth

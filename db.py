@@ -10,3 +10,6 @@ def df_connect() -> None:
 def insert(amount, category_text):
     cursor.execute("INSERT INTO expense VALUES (?, ?)", (amount, category_text))
     conn.commit()
+
+def get_cursor():
+    return cursor

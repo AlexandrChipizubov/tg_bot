@@ -32,7 +32,8 @@ def add_expense(raw_message: str) -> Expense:
     #     "category_codename": category.codename,
     #     "raw_text": raw_message
     # })
-    return Expense(id=None,
+    return Expense(
+                # id=None,
                    amount=parsed_message.amount,
                 #    category_name=category.name)
                 category_name=parsed_message.category_text) #tmp_kostil

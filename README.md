@@ -1,5 +1,5 @@
 # Telegram bot for financial management (russian language version)
-## Instructions for creating your own bot (**instructions are not finished**):
+## Instructions for creating your own bot:
   - Install python 3 on your computer (instructions on how to install python: https://phoenixnap.com/kb/how-to-install-python-3-windows )
   - Create your bot in telegram using bot for creating new bots:
     - Insert @BotFather into the telegram search and go to the chat with this bot

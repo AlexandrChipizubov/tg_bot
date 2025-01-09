@@ -26,7 +26,6 @@ async def send_welcome(message: Message):
     await message.answer(
         "Бот для учёта финансов\n\n"
         "Добавить расход: 250 такси\n"
-        "Удалить расход: /del 13 (вместо 13 подставить сумму расхода)\n"
         # "Сегодняшняя статистика: /today\n"
         # "За текущий месяц: /month\n"
         "Последние внесённые расходы: /expenses\n\n"
@@ -63,7 +62,7 @@ async def list_expenses(message: Message):
         return
     last_expenses_rows = [
         f"{expense.amount} руб. на {expense.category_name} — нажми "
-        f"/del{expense.amount} для удаления"
+        f"/del{expense.id} для удаления"
         for expense in last_expenses]
     answer_message = "Последние сохранённые траты:\n\n* " + "\n\n* "\
             .join(last_expenses_rows)
@@ -79,7 +78,8 @@ async def add_expense(message: Message):
         await message.answer(str(e))
         return
     answer_message = (
-        f"Добавлены траты {expense.amount} руб на {expense.category_name}.\n\n"
+        f"Добавлены траты {expense.amount} руб на {expense.category_name}.\n"
+        f"Нажми /del{expense.id} для удаления\n\n"
         # f"{expenses.get_today_statistics()}"
         )
     await message.answer(answer_message)

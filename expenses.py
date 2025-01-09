@@ -14,6 +14,7 @@ class Message(NamedTuple):
 
 class Expense(NamedTuple):
     """Структура добавленного в БД нового расхода"""
+    id: int
     amount: int
     category_name: str
 
@@ -23,7 +24,7 @@ def add_expense(raw_message: str) -> Expense:
     Принимает на вход текст сообщения, пришедшего в бот."""
     parsed_message = _parse_message(raw_message)
     db.df_connect()
-    db.insert(parsed_message.amount, parsed_message.category_text)
+    id = db.insert(parsed_message.amount, parsed_message.category_text)
     # category = Categories().get_category(
     #     parsed_message.category_text)
     # inserted_row_id = db.insert("expense", {
@@ -33,7 +34,7 @@ def add_expense(raw_message: str) -> Expense:
     #     "raw_text": raw_message
     # })
     return Expense(
-                # id=None,
+                id=id,
                    amount=parsed_message.amount,
                 #    category_name=category.name)
                 category_name=parsed_message.category_text) #tmp_kostil
@@ -48,9 +49,9 @@ def last() -> List[Expense]:
     """Возвращает последние несколько расходов"""
     cursor = db.get_cursor()
     cursor.execute(
-        "SELECT amount, raw_text FROM expense")
+        "SELECT id, amount, raw_text FROM expense LIMIT 10")
     rows = cursor.fetchall()
-    last_expenses = [Expense(amount=row[0], category_name=row[1]) for row in rows]
+    last_expenses = [Expense(id=row[0], amount=row[1], category_name=row[2]) for row in rows]
     return last_expenses
 
 def delete_expense(row_id: int) -> None:
